@@ -9,6 +9,7 @@ while contador != 3:
 
     if nome == usuario and sua_senha == senha:
         print("Bem vindo, maconheiro!")
+        break
     
     else:
         print("caia fora! Sistema de segurança contra drogados ativado.")
