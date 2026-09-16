@@ -60,6 +60,9 @@ while opcao != "sair":
     elif opcao == "divisao":
         n1 = int(input("digite o primeiro numero: "))
         n2 = int(input("digite o segundo numero: "))
+
+        if n2 == 0:
+            print("resultado igual a 0.")
     
         total = n1 / n2
         print(f"a divisão total é: {total}")
