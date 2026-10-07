@@ -1,0 +1,4 @@
+Nome do drogado: Moya
+Nome do drogado: Igor
+Nome do drogado: Luiz
+Nome do drogado: Bolsonaro
