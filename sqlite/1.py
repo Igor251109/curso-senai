@@ -69,20 +69,63 @@ print("\n VENDA:")
 for produto in produtos:
     print(
         f"| ID: {produto[0]} |"
-        f"| NOME PRODUTO: {produto[1]} |" 
+        f"| NOME PRODUTO: {produto[1]} |"
         f"| PREÇO: R${produto[2]:.2f} |"
         f"| ESTOQUE: {produto[3]}"
     )
 
-idx = int(input("digite o ID do produto que deseja vender: "))
+idx = int(input("Digite o ID do produto que deseja vender: "))
 
 cursor.execute('''SELECT * FROM produtos WHERE id = ?''', (idx,))
 produto = cursor.fetchone()
 
 if produto:
-    quantos_vender = int(input("quantos produtos deseja comprar?: "))
+    quantos_vender = int(input("Quantos produtos deseja comprar?: "))
 
-    cursor.execute('''UPDATE produtos SET quantidade = ? WHERE id = ?''', (quantos_vender, idx))
+    estoque_atual = produto[3]
 
+    if quantos_vender <= 0:
+        print("Digite uma quantidade válida.")
+
+    elif quantos_vender > estoque_atual:
+        print("Estoque insuficiente.")
+
+    else:
+        novo_estoque = estoque_atual - quantos_vender
+
+        cursor.execute(
+            '''UPDATE produtos SET estoque = ? WHERE id = ?''',
+            (novo_estoque, idx)
+        )
+
+        conexao.commit()
+
+        print("Venda realizada com sucesso!")
+
+else:
+    print("Produto não encontrado.")
+
+print("\n DELETAR :")
+
+for produto in produtos:
+    print(
+        f"| ID: {produto[0]}          |"
+        f"| NOME PRODUTO: {produto[1]}|" 
+        f"| PREÇO: R${produto[2]:.2f} |"
+        f"| ESTOQUE: {produto[3]}     |"
+    )
+
+deletar = int(input("Qual ID do produto que deseja deletar do sistema?: "))
+
+cursor.execute('''SELECT * FROM produtos WHERE id = ?''', (deletar,))
+produto_deletar = cursor.fetchone()
+
+if produto_deletar:
+    cursor.execute('''DELETE FROM produtos WHERE id = ?''', (deletar,))
     conexao.commit()
-    conexao.close()
+    print("Produto deletado com sucesso.")
+
+else:
+    print("Produto não encontrado.")
+
+conexao.close()
